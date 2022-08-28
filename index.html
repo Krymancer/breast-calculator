@@ -52,6 +52,11 @@ Number.prototype.clamp = function(min, max) {
     document.getElementById('breast-size').innerHTML = size;
     document.getElementById('breast-size-status').innerHTML = breastSizeStatus;
     result.classList.remove('hidden');
+
+    if(isNaN(breastSize)) {
+      result.classList.add('hidden');
+      alert('Altura em CENTIMETROS, Peso em KILOGRAMAS e Idade em ANOS, sem virgula, sem acento sem letra so os numero!!!!!!!!!!!!!!');
+    } 
   });
 </script>
 </html>

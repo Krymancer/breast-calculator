@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Breast Calculator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="dark:bg-gray-900 dark:text-gray-300">
+  <form class="max-w-lg m-auto py-10">
+    <div class="mb-6">
+      <label for="height" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Altura</label>
+      <input type="text" id="height" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Altura em centímetros" required>
+    </div>
+    <div class="mb-6">
+      <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Peso</label>
+      <input type="text" id="weight" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  placeholder="Peso em kilogramas" required>
+    </div>
+    <div class="mb-6">
+      <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Idade</label>
+      <input type="text" id="age" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  placeholder="Idade em anos" required>
+    </div>
+    <button id="button" type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Calcular</button>
+  </form>
+
+  <div id="result" class="max-w-lg m-auto py-10 flex flex-col hidden">
+    <span class="text-2xl mb-5">Resultado: </span>
+    <span>Se você fosse mulher você teria um busto de <b id="breast-size">69.69</b> cm</span>
+    <span>Seus peitos seriam <b id="breast-size-status">grandes pra caralho</b>!</span>
+  </div>
+</body>
+<script>
+  const height = document.getElementById('height');
+  const weight = document.getElementById('weight');
+  const age = document.getElementById('age');
+  const btn = document.getElementById('button');
+  const result = document.getElementById('result');
+
+Number.prototype.clamp = function(min, max) {
+  return Math.min(Math.max(this, min), max);
+};
+
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    const heightInMetres = height.value / 100;
+    const imc = (weight.value / (heightInMetres * heightInMetres));
+    const breastSize = (((weight.value / 10) - weight.value / height.value) + (2 * imc));
+    const size = breastSize.clamp(50, 240).toFixed(2);
+
+    const breastSizeStatus = size < 50 ? 'pequenos' : size < 70 ? 'na média' : size < 90 ? 'grandões' : 'grandes pra caralho';
+    
+    document.getElementById('breast-size').innerHTML = size;
+    document.getElementById('breast-size-status').innerHTML = breastSizeStatus;
+    result.classList.remove('hidden');
+  });
+</script>
+</html>
